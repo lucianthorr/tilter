@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}		
+{% block body %}
+		<h1>Tilt Server</h1>
+		<select name="Registered Tilts" size="3">
+			{% for tilt in tilts %}
+			<option value={{ tilt.color }}>{{ tilt.color }}</option>
+			{% endfor %}
+		</select>
+		<input name="Add a Tilt" type="button">
+{% endblock %}
