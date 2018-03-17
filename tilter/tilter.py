@@ -6,7 +6,6 @@ app.config['MYSQL_DATABASE_USER'] = 'pi'
 app.config['MYSQL_DATABASE_PASSWORD'] = ''
 app.config['MYSQL_DATABASE_DB'] = 'tiltdb'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
-url_for('skeleton.css', static='css/skeleton.css')
 mysql = MySQL()
 mysql.init_app(app)
 
@@ -18,6 +17,10 @@ def index():
     print tilts
     return render_template('index.html', tilts=tilts)
 
+@app.route("/calibrate")
+def calibrate():
+    tilts= get_tilts()
+    return render_template('calibrate.html', tilts=tilts)
 
 def get_tilts():
     conn = mysql.connect()
@@ -33,7 +36,7 @@ def setup_table():
     conn = mysql.connect()
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS tilt (color varchar(16), gravOffset float, tempOffset float)")
-    cur.execute("CREATE TABLE IF NOT EXISTS stats (beer varchar(128), color varchar(16), unit varchar(16), gravity float, temp float)")
+    cur.execute("CREATE TABLE IF NOT EXISTS stats (beer varchar(128), color varchar(16), timestamp timestamp, unit varchar(16), gravity float, temp float)")
     conn.commit()
     conn.close()
 
